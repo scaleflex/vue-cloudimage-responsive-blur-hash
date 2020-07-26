@@ -55,7 +55,7 @@ export default {
       );
     }
   },
-  // to able to used the data in image and background
+  // to able to use the data in image and background
   provide() {
     const cloudProvider = {};
     Object.defineProperty(cloudProvider, 'config', {

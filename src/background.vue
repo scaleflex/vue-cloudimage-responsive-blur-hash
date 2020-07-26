@@ -2,33 +2,20 @@
   <div>
     <div
       v-if="properties.config.lazyLoading"
+      v-lazy="data.cloudimgURL"
       :class="loadedStyle"
       :style="container"
     >
-      <Canvas
-        v-if="properties.blurhash"
-        :blurhash="properties.blurhash"
-        :loaded="loaded"
-      />
+      <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
 
-      <div
-        class="cloudimage-background-content"
-        style="position: relative; zIndex: 2 "
-      >
+      <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
         <slot></slot>
       </div>
     </div>
     <div v-else :class="loadedStyle" :style="container">
-      <Canvas
-        v-if="properties.blurhash"
-        :blurhash="properties.blurhash"
-        :loaded="loaded"
-      />
+      <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
 
-      <div
-        class="cloudimage-background-content"
-        style="position: relative; zIndex: 2 "
-      >
+      <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
         <slot></slot>
       </div>
     </div>
@@ -39,16 +26,16 @@
 </template>
 
 <script>
-import { isServer, processReactNode } from 'cloudimage-responsive-utils';
-import styles from './background.styles';
-import { getFilteredBgProps } from './utils.js';
-import Canvas from './Canvas';
+import { isServer, processReactNode } from "cloudimage-responsive-utils";
+import styles from "./background.styles";
+import { getFilteredBgProps } from "./utils.js";
+import Canvas from "./Canvas";
 export default {
   components: {
     Canvas
   },
   // geting the data from the provider
-  inject: ['cloudProvider'],
+  inject: ["cloudProvider"],
   props: {
     src: String,
     params: String,
@@ -58,10 +45,10 @@ export default {
   data() {
     return {
       server: isServer(),
-      cloudimgURL: '',
+      cloudimgURL: "",
       processed: false,
       loaded: false,
-      data: '',
+      data: "",
       properties: {
         src: this.src,
         params: this.params ? this.params : undefined,
@@ -69,13 +56,13 @@ export default {
         style: this.styles,
         blurhash: this.blurhash
       },
-      container: '',
-      previewBgWrapper: '',
-      previewBg: '',
-      className: '',
-      lazyLoadConfig: '',
-      otherProps: '',
-      loadedStyle: ''
+      container: "",
+      previewBgWrapper: "",
+      previewBg: "",
+      className: "",
+      lazyLoadConfig: "",
+      otherProps: "",
+      loadedStyle: ""
     };
   },
   mounted() {
@@ -86,7 +73,7 @@ export default {
     this.className = className;
 
     //initial loading style
-    this.loadedStyle = [this.className, 'cloudimage-background', 'loading'];
+    this.loadedStyle = [this.className, "cloudimage-background", "loading"];
     //initial value container style
     this.container = styles.container({ style, cloudimgURL });
     this.processBg();
@@ -121,7 +108,7 @@ export default {
     }
   },
   watch: {
-    'properties.config.innerWidth': function(newVal, oldVal) {
+    "properties.config.innerWidth": function(newVal, oldVal) {
       const style = this.properties.style;
       const cloudimgURL = this.data.cloudimgURL;
       const previewCloudimgURL = this.data.previewCloudimgURL;
@@ -141,7 +128,7 @@ export default {
       //updating value of container style if width changed
       this.container = styles.container({ style, cloudimgURL });
     },
-    'properties.src': function(newVal, oldVal) {
+    "properties.src": function(newVal, oldVal) {
       const { src } = this.properties;
       if (src !== oldVal.src) {
         this.processBg();
@@ -154,25 +141,25 @@ export default {
       const loaded = newVal;
       if (loaded) {
         //if loaded change style to loaded
-        this.loadedStyle = [this.className, 'cloudimage-background', 'loaded']
-          .join(' ')
+        this.loadedStyle = [this.className, "cloudimage-background", "loaded"]
+          .join(" ")
           .trim();
         //updating value of container style if page loaded
         this.container = styles.container({ style, cloudimgURL });
       } else {
         //if still loading change to loading
-        this.loadedStyle = [this.className, 'cloudimage-background', 'loading']
-          .join(' ')
+        this.loadedStyle = [this.className, "cloudimage-background", "loading"]
+          .join(" ")
           .trim();
       }
     },
 
-    'data.cloudimgURL': function(newVal) {
+    "data.cloudimgURL": function(newVal) {
       const {
         config: { delay }
       } = this.cloudProvider;
 
-      if (typeof delay !== 'undefined') {
+      if (typeof delay !== "undefined") {
         setTimeout(() => {
           this.preLoadImg(newVal);
         }, delay);

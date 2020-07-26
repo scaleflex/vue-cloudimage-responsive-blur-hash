@@ -6,11 +6,7 @@
       v-bind:class="loadedStyle"
       :style="picture"
     >
-      <Canvas
-        v-if="properties.blurhash"
-        :blurhash="properties.blurhash"
-        :loaded="loaded"
-      />
+      <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
       <img
         v-bind:alt="alt"
         :style="imgStyle"
@@ -21,11 +17,7 @@
       />
     </div>
     <div v-else v-bind:class="loadedStyle" :style="picture">
-      <Canvas
-        v-if="properties.blurhash"
-        :blurhash="properties.blurhash"
-        :loaded="loaded"
-      />
+      <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
       <img
         v-bind:alt="alt"
         :style="imgStyle"
@@ -40,19 +32,19 @@
 </template>
 
 <script>
-import { isServer, processReactNode } from 'cloudimage-responsive-utils';
-import { BASE_64_PLACEHOLDER } from 'cloudimage-responsive-utils/dist/constants';
-import Canvas from './Canvas';
+import { isServer, processReactNode } from "cloudimage-responsive-utils";
+import { BASE_64_PLACEHOLDER } from "cloudimage-responsive-utils/dist/constants";
+import Canvas from "./Canvas";
 
-import { getFilteredProps } from './utils';
-import styles from './img.styles';
+import { getFilteredProps } from "./utils";
+import styles from "./img.styles";
 
 export default {
   components: {
     Canvas
   },
   // geting the data from the provider
-  inject: ['cloudProvider'],
+  inject: ["cloudProvider"],
   props: {
     src: String,
     ratio: Number,
@@ -64,13 +56,13 @@ export default {
     return {
       server: isServer(),
       BASE_64_PLACEHOLDER,
-      cloudimgURL: '',
+      cloudimgURL: "",
       processed: false,
       loaded: false,
-      loadedImageWidth: '',
-      loadedImageHeight: '',
-      loadedImageRatio: '',
-      data: '',
+      loadedImageWidth: "",
+      loadedImageHeight: "",
+      loadedImageRatio: "",
+      data: "",
       properties: {
         src: this.src,
         ratio: this.ratio,
@@ -79,17 +71,17 @@ export default {
         params: this.params,
         config: this.cloudProvider.config
       },
-      alt: '',
-      className: '',
-      lazyLoadConfig: '',
-      preserveSize: '',
-      imgNodeWidth: '',
-      imgNodeHeight: '',
-      otherProps: '',
-      cloudimgSRCSET: '',
-      imgStyle: '',
-      picture: '',
-      loadedStyle: '',
+      alt: "",
+      className: "",
+      lazyLoadConfig: "",
+      preserveSize: "",
+      imgNodeWidth: "",
+      imgNodeHeight: "",
+      otherProps: "",
+      cloudimgSRCSET: "",
+      imgStyle: "",
+      picture: "",
+      loadedStyle: "",
       height: { height: 0 }
     };
   },
@@ -111,8 +103,8 @@ export default {
     const previewLoaded = this.previewLoaded;
 
     //initial loading style
-    this.loadedStyle = [this.className, 'cloudimage-background', 'loading']
-      .join(' ')
+    this.loadedStyle = [this.className, "cloudimage-background", "loading"]
+      .join(" ")
       .trim();
     //initial value image style
     this.imgStyle = styles.img({ preview, loaded, operation });
@@ -130,7 +122,7 @@ export default {
       config: { delay }
     } = this.cloudProvider;
 
-    if (typeof delay !== 'undefined') {
+    if (typeof delay !== "undefined") {
       setTimeout(() => {
         this.processImg();
       }, delay);
@@ -152,7 +144,7 @@ export default {
     if (this.data.cloudimgSRCSET) {
       const cloudimgSRCSET = this.data.cloudimgSRCSET
         .map(({ dpr, url }) => `${url} ${dpr}x`)
-        .join(', ');
+        .join(", ");
       this.cloudimgSRCSET = cloudimgSRCSET;
     }
   },
@@ -190,7 +182,7 @@ export default {
     }
   },
   watch: {
-    'properties.config.innerWidth': function(newVal, oldVal) {
+    "properties.config.innerWidth": function(newVal, oldVal) {
       if (this.server) return;
       const operation = this.data.operation;
       const preview = this.data.preview;
@@ -222,7 +214,7 @@ export default {
       });
     },
 
-    'properties.src': function(newVal, oldVal) {
+    "properties.src": function(newVal, oldVal) {
       const { src } = this.properties;
       if (src !== oldVal.src) {
         this.processImg();
@@ -240,8 +232,8 @@ export default {
 
       if (loaded) {
         //if loaded change style to loaded
-        this.loadedStyle = [this.className, 'cloudimage-background', 'loaded']
-          .join(' ')
+        this.loadedStyle = [this.className, "cloudimage-background", "loaded"]
+          .join(" ")
           .trim();
         // updating img style if page loaded
         this.imgStyle = styles.img({ preview, loaded, operation });
@@ -256,14 +248,10 @@ export default {
         });
       } else {
         //if still loading change to loading
-        this.loadedStyle = [this.className, 'cloudimage-background', 'loading']
-          .join(' ')
+        this.loadedStyle = [this.className, "cloudimage-background", "loading"]
+          .join(" ")
           .trim();
       }
-    },
-    'data.height': function(newVal) {
-      //height for lazyloading
-      this.height = { height: newVal };
     }
   }
 };
