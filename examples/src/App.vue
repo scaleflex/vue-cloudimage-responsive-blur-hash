@@ -489,8 +489,9 @@
         <BackgroundImg
           src="ameen-fahmy.jpg"
           params="func=crop&ci_info=0"
+          blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB"
           :styles="{
-            background: 'transparent 50% 50% / cover no-repeat',
+            background: '#000 50% 50% / cover no-repeat',
             color: '#fff'
           }"
         >
@@ -728,8 +729,8 @@ import "prismjs/plugins/autolinker/prism-autolinker.min";
 import "prismjs/plugins/autolinker/prism-autolinker.css";
 import Prism from "vue-prism-component";
 
-// import Prism from 'vue-prism-component';
 
+//cloud configuration
 const cloudImageConfig = {
   token: "demo",
   baseURL: "https://cloudimage.public.airstore.io/demo/",
@@ -752,6 +753,7 @@ export default {
     BackgroundImg,
     Prism
   },
+  // passing to config to provider
   props: ["cloudimageConfig"],
   mounted() {
     const self = this;

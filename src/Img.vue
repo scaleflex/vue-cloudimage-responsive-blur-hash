@@ -1,34 +1,11 @@
 <template>
   <div>
-    <!-- v-bind="{ ...lazyLoadConfig }" :style="height" -->
-    <!-- <div
+    <div
       v-if="properties.config.lazyLoading"
-      v:class="loadedStyle"
+      v-lazy="data.cloudimgURL"
+      v-bind:class="loadedStyle"
       :style="picture"
     >
-      <div
-        :style="previewWrapper"
-        v-if="data.preview && data.operation !== 'bound'"
-      >
-        <img
-          v-lazy="data.previewCloudimgURL"
-          :style="previewImg"
-          v-bind:src="data.previewCloudimgURL"
-          alt="low quality preview image"
-          @load="onPreviewLoaded"
-        />
-      </div>
-      <img
-        v-bind:alt="alt"
-        :style="imgStyle"
-        v-bind="{ ...otherProps }"
-        v-bind:src="data.cloudimgURL"
-        @load="onImgLoad"
-        :srcset="cloudimgSRCSET"
-      />
-    </div>-->
-
-    <div v-bind:class="loadedStyle" :style="picture">
       <Canvas
         v-if="properties.blurhash"
         :blurhash="properties.blurhash"
@@ -37,14 +14,28 @@
       <img
         v-bind:alt="alt"
         :style="imgStyle"
-        v-bind="{ ...otherProps }"
+        v-bind:ratio="otherProps.ratio"
         v-bind:src="data.cloudimgURL"
         @load="onImgLoad"
         :srcset="cloudimgSRCSET"
       />
-
-      <img v-if="server" :alt="alt" :src="BASE_64_PLACEHOLDER" />
     </div>
+    <div v-else v-bind:class="loadedStyle" :style="picture">
+      <Canvas
+        v-if="properties.blurhash"
+        :blurhash="properties.blurhash"
+        :loaded="loaded"
+      />
+      <img
+        v-bind:alt="alt"
+        :style="imgStyle"
+        v-bind:ratio="otherProps.ratio"
+        v-bind:src="data.cloudimgURL"
+        @load="onImgLoad"
+        :srcset="cloudimgSRCSET"
+      />
+    </div>
+    <img v-if="server" :alt="alt" :src="BASE_64_PLACEHOLDER" />
   </div>
 </template>
 
@@ -52,15 +43,15 @@
 import { isServer, processReactNode } from 'cloudimage-responsive-utils';
 import { BASE_64_PLACEHOLDER } from 'cloudimage-responsive-utils/dist/constants';
 import Canvas from './Canvas';
-// import VueLazyload from 'vue-lazyload';
+
 import { getFilteredProps } from './utils';
 import styles from './img.styles';
 
 export default {
   components: {
-    // VueLazyload
     Canvas
   },
+  // geting the data from the provider
   inject: ['cloudProvider'],
   props: {
     src: String,
@@ -98,14 +89,13 @@ export default {
       cloudimgSRCSET: '',
       imgStyle: '',
       picture: '',
-
       loadedStyle: '',
       height: { height: 0 }
     };
   },
   mounted() {
-    console.log('onMount props', this.properties);
-    console.log('onMount state', this);
+    if (this.server) return;
+
     const {
       alt,
       className,
@@ -115,14 +105,18 @@ export default {
       imgNodeHeight,
       ...otherProps
     } = getFilteredProps(this.properties);
-
     const operation = this.data.operation;
     const preview = this.data.preview;
     const loaded = this.loaded;
-
     const previewLoaded = this.previewLoaded;
 
+    //initial loading style
+    this.loadedStyle = [this.className, 'cloudimage-background', 'loading']
+      .join(' ')
+      .trim();
+    //initial value image style
     this.imgStyle = styles.img({ preview, loaded, operation });
+    //initial value picture style
     this.picture = styles.picture({
       preserveSize,
       imgNodeWidth,
@@ -131,7 +125,7 @@ export default {
       previewLoaded,
       loaded
     });
-    if (this.server) return;
+
     const {
       config: { delay }
     } = this.cloudProvider;
@@ -144,6 +138,7 @@ export default {
       this.processImg();
     }
 
+    //the value from filter and passing to data
     this.alt = alt;
     this.className = className;
     this.lazyLoadConfig = lazyLoadConfig;
@@ -153,6 +148,7 @@ export default {
     this.otherProps = { ...otherProps };
   },
   updated() {
+    //srcset value after processing image
     if (this.data.cloudimgSRCSET) {
       const cloudimgSRCSET = this.data.cloudimgSRCSET
         .map(({ dpr, url }) => `${url} ${dpr}x`)
@@ -181,6 +177,7 @@ export default {
       this.updateLoadedImageSize(event.target);
       this.previewLoaded = true;
     },
+
     updateLoadedImageSize(image) {
       this.loadedImageWidth = image.naturalWidth;
       this.loadedImageHeight = image.naturalHeight;
@@ -207,7 +204,14 @@ export default {
         config: { innerWidth }
       } = this.properties;
 
+      if (oldVal !== innerWidth) {
+        //if width changed update the data from proccesing image
+        this.processImg(true, innerWidth > oldVal);
+      }
+
+      //updating value of image style if width changed
       this.imgStyle = styles.img({ preview, loaded, operation });
+      //updating value of picture style if width changed
       this.picture = styles.picture({
         preserveSize,
         imgNodeWidth,
@@ -216,20 +220,16 @@ export default {
         previewLoaded,
         loaded
       });
-
-      if (oldVal !== innerWidth) {
-        this.processImg(true, innerWidth > oldVal);
-      }
     },
+
     'properties.src': function(newVal, oldVal) {
       const { src } = this.properties;
       if (src !== oldVal.src) {
         this.processImg();
       }
     },
+
     loaded: function(newVal) {
-      console.log('onMount props', this.properties);
-      console.log('onMount state', this);
       const operation = this.data.operation;
       const preview = this.data.preview;
       const loaded = newVal;
@@ -239,11 +239,13 @@ export default {
       const previewLoaded = this.previewLoaded;
 
       if (loaded) {
+        //if loaded change style to loaded
         this.loadedStyle = [this.className, 'cloudimage-background', 'loaded']
           .join(' ')
           .trim();
-
+        // updating img style if page loaded
         this.imgStyle = styles.img({ preview, loaded, operation });
+        // updating picture style if page loaded
         this.picture = styles.picture({
           preserveSize,
           imgNodeWidth,
@@ -253,12 +255,14 @@ export default {
           loaded
         });
       } else {
+        //if still loading change to loading
         this.loadedStyle = [this.className, 'cloudimage-background', 'loading']
           .join(' ')
           .trim();
       }
     },
     'data.height': function(newVal) {
+      //height for lazyloading
       this.height = { height: newVal };
     }
   }
