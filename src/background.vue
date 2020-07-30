@@ -1,17 +1,14 @@
 <template>
   <div>
-    <div
-      v-if="properties.config.lazyLoading"
-      v-lazy="data.cloudimgURL"
-      :class="loadedStyle"
-      :style="container"
-    >
-      <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
+    <lazy-component v-if="properties.config.lazyLoading && lazyLoadActive" @show="handler">
+      <div :class="loadedStyle" :style="container">
+        <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
 
-      <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
-        <slot></slot>
+        <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
+          <slot></slot>
+        </div>
       </div>
-    </div>
+    </lazy-component>
     <div v-else :class="loadedStyle" :style="container">
       <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
 
@@ -29,7 +26,7 @@
 import { isServer, processReactNode } from "cloudimage-responsive-utils";
 import styles from "./background.styles";
 import { getFilteredBgProps } from "./utils.js";
-import Canvas from "./Canvas";
+import Canvas from "./Canvas.vue";
 export default {
   components: {
     Canvas
@@ -46,6 +43,7 @@ export default {
     return {
       server: isServer(),
       cloudimgURL: "",
+      lazyLoadActive: true,
       processed: false,
       loaded: false,
       data: "",
@@ -80,6 +78,9 @@ export default {
   },
 
   methods: {
+    handler(component) {
+      this.lazyLoadActive = false;
+    },
     processBg(update, windowScreenBecomesBigger) {
       const bgNode = this.$el;
       const data = processReactNode(
@@ -154,17 +155,19 @@ export default {
       }
     },
 
-    "data.cloudimgURL": function(newVal) {
-      const {
-        config: { delay }
-      } = this.cloudProvider;
+    lazyLoadActive: function() {
+      if (!this.lazyLoadActive) {
+        const {
+          config: { delay }
+        } = this.cloudProvider;
 
-      if (typeof delay !== "undefined") {
-        setTimeout(() => {
-          this.preLoadImg(newVal);
-        }, delay);
-      } else {
-        this.preLoadImg(newVal);
+        if (typeof delay !== "undefined") {
+          setTimeout(() => {
+            this.preLoadImg(this.data.cloudimgURL);
+          }, delay);
+        } else {
+          this.preLoadImg(this.data.cloudimgURL);
+        }
       }
     }
   }

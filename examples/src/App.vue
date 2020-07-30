@@ -5,35 +5,35 @@
         <div class="container">
           <a
             class="logo"
-            href="https://scaleflex.github.io/react-cloudimage-responsive/"
+            href="https://scaleflex.github.io/vue-cloudimage-responsive-blur-hash/"
           >Vue Cloudimage Responsive</a>
           <p>(Blur Hash version)</p>
           <div class="reference-buttons">
             <a
               class="github-button"
               target="_blank"
-              href="https://github.com/Scaleflex/react-cloudimage-responsive/subscription"
+              href="https://github.com/Scaleflex/vue-cloudimage-responsive-blur-hash/subscription"
               data-icon="octicon-eye"
-              aria-label="Watch Scaleflex/react-cloudimage-responsive on GitHub"
+              aria-label="Watch Scaleflex/vue-cloudimage-responsive-blur-hash on GitHub"
             >Watch</a>
             <a
               class="github-button"
               target="_blank"
-              href="https://github.com/Scaleflex/react-cloudimage-responsive"
+              href="https://github.com/Scaleflex/-blur-hash-cloudimage-responsive-blur-hash"
               data-icon="octicon-star"
-              aria-label="Star Scaleflex/react-cloudimage-responsive on GitHub"
+              aria-label="Star Scaleflex/vue-cloudimage-responsive-blur-hash on GitHub"
             >Star</a>
             <a
               class="github-button"
               target="_blank"
-              href="https://github.com/Scaleflex/react-cloudimage-responsive/fork"
+              href="https://github.com/Scaleflex/vue-cloudimage-responsive-blur-hash/fork"
               data-icon="octicon-repo-forked"
-              aria-label="Fork Scaleflex/react-cloudimage-responsive on GitHub"
+              aria-label="Fork Scaleflex/vue-cloudimage-responsive-blur-hash on GitHub"
             >Fork</a>
             <a
               class="twitter-share-button btn btn-info"
               target="_blank"
-              href="https://twitter.com/intent/tweet?text=Responsive%20images,%20now%20easier%20than%20ever&url=https://scaleflex.github.io/react-cloudimage-responsive/&via=cloudimage&hashtags=images,cloudimage,responsive_images,lazy_loading,web_acceleration,image_optimization,image_CDN,image_CDNwebp,jpeg_xr,jpg_optimization,image_resizing_and_CDN,cropresize"
+              href="https://twitter.com/intent/tweet?text=Responsive%20images,%20now%20easier%20than%20ever&url=https://scaleflex.github.io/vue-cloudimage-responsive-blur-hash/&via=cloudimage&hashtags=images,cloudimage,responsive_images,lazy_loading,web_acceleration,image_optimization,image_CDN,image_CDNwebp,jpeg_xr,jpg_optimization,image_resizing_and_CDN,cropresize"
             >
               <i></i>
               <span>Tweet</span>
@@ -58,19 +58,19 @@
           <div class="actions-wrapper">
             <a
               id="view-github-btn"
-              href="https://github.com/scaleflex/react-cloudimage-responsive"
+              href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash"
               class="btn btn-primary"
               target="_blank"
             >View on GitHub</a>
             <a
-              href="https://codesandbox.io/s/1840nl707j"
+              href="https://codesandbox.io/s/vue-cloudimage-responsive-blur-hash-example-b3u5n"
               style="margin-left: 5px"
               class="btn btn-light"
               target="_blank"
             >Edit on CodeSandbox</a>
           </div>
         </div>
-        <a href="https://github.com/scaleflex/react-cloudimage-responsive" target="_blank">
+        <a href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash" target="_blank">
           <img
             class="fork-me-on-github"
             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
@@ -492,7 +492,8 @@
           blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB"
           :styles="{
             background: '#000 50% 50% / cover no-repeat',
-            color: '#fff'
+            color: '#fff',
+            position:'relative'
           }"
         >
           <div style="background: rgba(0,0,0,.6); padding: 40px ">
@@ -541,11 +542,7 @@
           <div class="action-wrapper first-action">
             <p>Install using npm</p>
             <figure class="highlight">
-              <pre>
-                  <code class="javascript">
-                    npm install --save vue-cloudimage-responsive-blur-hash
-                  </code>
-                </pre>
+              <pre><code class="javascript">npm install --save vue-cloudimage-responsive-blur-hash vue-lazyload</code></pre>
             </figure>
           </div>
 
@@ -559,7 +556,8 @@
                 of your image storage using{{ ' ' }}
                 <strong>CloudimageProvider</strong>
               </p>
-              <Prism>{{syntaxHighlight6}}</Prism>
+              <Prism language="javascript">{{syntaxHighlight6}}</Prism>
+              <Prism>{{syntaxHighlight7}}</Prism>
               <p>
                 Get your Cloudimage tokens{{ ' ' }}
                 <a
@@ -570,7 +568,7 @@
 
             <div class="action-wrapper third-action">
               <p>Implement it, just using the Img component:</p>
-              <prism>{{syntaxHighlight7}}</prism>
+              <prism>{{syntaxHighlight8}}</prism>
               <p>
                 <small>
                   NOTE: "ratio" is recommended to prevent page layout jumping.{'
@@ -584,7 +582,7 @@
               <p>
                 …and you're done!{{ ' ' }}
                 <a
-                  href="https://github.com/scaleflex/react-cloudimage-responsive#table-of-contents"
+                  href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash#table-of-contents"
                   target="_blank"
                 >{{ ' ' }} Visit the full documentation here.</a>
               </p>
@@ -679,19 +677,19 @@
                 <ul>
                   <li>
                     <a
-                      href="https://github.com/scaleflex/react-cloudimage-responsive"
+                      href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash"
                       target="_blank"
                     >View GitHub</a>
                   </li>
                   <li>
                     <a
-                      href="https://github.com/scaleflex/react-cloudimage-responsive/issues"
+                      href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash/issues"
                       target="_blank"
                     >Current Issues</a>
                   </li>
                   <li>
                     <a
-                      href="https://github.com/scaleflex/react-cloudimage-responsive#table-of-contents"
+                      href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash#table-of-contents"
                       target="_blank"
                     >Documentation</a>
                   </li>
@@ -718,7 +716,7 @@
 
 <script>
 import ContainerBox from "./components/ContainerBox";
-import CloudImageProvider from "../../src/provider";
+import CloudImageProvider from "../../src/CloudImageProvider";
 import Img from "../../src/Img";
 import BackgroundImg from "../../src/background";
 import { images } from "./mock";
@@ -728,7 +726,6 @@ import "prismjs/components/prism-scss.min";
 import "prismjs/plugins/autolinker/prism-autolinker.min";
 import "prismjs/plugins/autolinker/prism-autolinker.css";
 import Prism from "vue-prism-component";
-
 
 //cloud configuration
 const cloudImageConfig = {
@@ -801,9 +798,18 @@ export default {
   params="func=crop" 
   blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB"
   style="background: transparent 50% 50% / cover no-repeat">...</BackgroundImg>`,
-
       syntaxHighlight6: `import Vue from 'vue';
-import Img, { CloudimageProvider } from 'vue-cloudimage-responsive';
+import App from './App.vue';
+import VueLazyload from 'vue-lazyload';
+
+Vue.use(VueLazyload, {
+  lazyComponent: true
+});
+new Vue({
+  render: h => h(App)
+}).$mount('#app');`,
+      syntaxHighlight7: `import Vue from 'vue';
+import Img, { CloudimageProvider } from 'vue-cloudimage-responsive-blur-hash';
 
 const cloudimageConfig = {
   token: 'demo',
@@ -812,7 +818,7 @@ const cloudimageConfig = {
 
 <template>
 <CloudimageProvider config={cloudimageConfig}>
- <h1>Simple demo of react-cloudimage-responsive</h1>
+ <h1>Simple demo of vue-cloudimage-responsive</h1>
 <Img src="img.jpg" alt="Demo image" ratio=1.5 blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB" />
 </CloudimageProvider>
 </template>
@@ -827,9 +833,7 @@ const cloudimageConfig = {
 '
 < /script>
 `,
-      syntaxHighlight7: `
-    <Img src="img.jpg" alt="Demo image" ratio=1.5 blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>
-`,
+      syntaxHighlight8: `<Img src="img.jpg" alt="Demo image" ratio=1.5 blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>`,
 
       images,
       imagesSliced,

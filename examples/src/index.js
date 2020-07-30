@@ -3,7 +3,10 @@ import App from './App.vue';
 import './assets/style.css';
 import VueLazyload from 'vue-lazyload';
 
-Vue.use(VueLazyload);
+Vue.use(VueLazyload, {
+  lazyComponent: true
+});
+
 new Vue({
   el: '#app',
   render: h => h(App)
