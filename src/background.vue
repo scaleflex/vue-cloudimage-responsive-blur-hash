@@ -79,7 +79,13 @@ export default {
 
   methods: {
     handler(component) {
+      const style = this.properties.style;
+      const cloudimgURL = this.data.cloudimgURL;
+      const loaded = this.loaded;
+
       this.lazyLoadActive = false;
+      //initial value container style
+      this.container = styles.container({ style, cloudimgURL });
     },
     processBg(update, windowScreenBecomesBigger) {
       const bgNode = this.$el;
@@ -91,11 +97,9 @@ export default {
         false
       );
 
-      if (!data) {
-        return;
+      if (data) {
+        this.data = data;
       }
-
-      this.data = data;
     },
     preLoadImg(cloudimgURL) {
       const img = new Image();

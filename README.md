@@ -31,7 +31,7 @@
 	<strong>
 		<a href="#table-of-contents">Docs</a>
 		•
-		<a href="https://github.com/scaleflex/vue-cloudimage-responsive/" target="_blank">Demo</a>
+		<a href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash/" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/vue-cloudimage-responsive-blur-hash-example-b3u5n" target="_blank">Code Sandbox</a>
 		•
