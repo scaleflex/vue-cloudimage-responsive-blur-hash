@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import styles from './img.styles';
+import {blurHashImgStyes as styles} from "cloudimage-responsive-utils";
 import { blurhash } from 'cloudimage-responsive-utils';
 export default {
   props: { blurhash: String, loaded: Boolean },
