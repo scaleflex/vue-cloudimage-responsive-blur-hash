@@ -24,7 +24,7 @@
 
 <script>
 import { isServer, processReactNode } from "cloudimage-responsive-utils";
-import styles from "./background.styles";
+import { backgroundStyles as styles } from 'cloudimage-responsive-utils';
 import { getFilteredBgProps } from "./utils.js";
 import Canvas from "./Canvas.vue";
 export default {

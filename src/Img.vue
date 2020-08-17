@@ -27,7 +27,7 @@ import { BASE_64_PLACEHOLDER } from "cloudimage-responsive-utils/dist/constants"
 import Canvas from "./Canvas.vue";
 
 import { getFilteredProps } from "./utils";
-import styles from "./img.styles";
+import {blurHashImgStyes as styles} from "cloudimage-responsive-utils";
 
 export default {
   components: {
