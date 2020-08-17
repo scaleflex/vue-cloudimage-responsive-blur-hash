@@ -36,7 +36,6 @@ export default {
         doNotReplaceURL: false,
         devicePixelRatioList: CONSTANTS.DEVICE_PIXEL_RATIO_LIST,
         limitFactor: this.cloudImageConfig.limitFactor,
-        minLowQualityWidth: this.cloudImageConfig.lowQualityPreview.minImgWidth,
         xs: '(max-width: 575px)',
         sm: '(min-width: 576px)',
         md: '(min-width: 768px)',
