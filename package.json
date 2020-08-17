@@ -1,6 +1,6 @@
 {
   "name": "vue-cloudimage-responsive-blur-hash",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "description": "Cloudimage Responsive will smartly resize, compress and accelerate images across the World in your site for all devices. The plugin supports lazy loading technique with blur hash placeholder.",
   "author": "scaleflex",
@@ -36,18 +36,15 @@
   },
   "dependencies": {
     "cloudimage-responsive-utils": "^2.0.10",
-    "core-js": "^3.6.5",
-    "throttle-debounce": "^2.2.1"
+    "core-js": "^3.6.5"
   },
   "peerDependencies": {
     "vue": "^2.6.11",
     "vue-lazyload": "^1.3.3"
   },
   "devDependencies": {
-    "vue": "^2.6.11",
-    "vue-lazyload": "^1.3.3",
     "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.10.5",
+    "@babel/core": "^7.11.1",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-decorators": "^7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
@@ -62,24 +59,26 @@
     "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
     "css-loader": "^3.6.0",
+    "deepmerge": "^2.0.1",
     "gh-pages": "^2.0.1",
     "html-webpack-plugin": "^4.3.0",
-    "prismjs": "^1.20.0",
+    "prismjs": "^1.21.0",
     "rimraf": "^3.0.2",
+    "rollup": "^1.14.3",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-vue": "^5.0.0",
+    "shelljs": "^0.7.6",
     "style-loader": "^1.2.1",
-    "throttle-debounce": "^2.2.1",
+    "throttle-debounce": "^2.3.0",
+    "vue": "^2.6.11",
+    "vue-lazyload": "^1.3.3",
     "vue-loader": "^15.9.3",
     "vue-prism-component": "^1.2.0",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
-    "rollup": "^1.14.3",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-vue": "^5.0.0",
-    "shelljs": "^0.7.6",
-    "deepmerge": "^2.0.1"
+    "webpack-dev-server": "^3.11.0"
   }
 }
