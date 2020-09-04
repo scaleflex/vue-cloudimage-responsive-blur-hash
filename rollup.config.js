@@ -19,7 +19,7 @@ module.exports = {
   ],
   external: [
     'vue',
-    'lodash.throttle',
+    'throttle-debounce',
     'core-js',
     'cloudimage-responsive-utils'
   ],
