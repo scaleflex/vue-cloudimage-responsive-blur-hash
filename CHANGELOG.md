@@ -26,28 +26,9 @@ Types of changes:
 
 -------------
 
-## 1.4.1 - 2020-04-29
-
-### Added
-- lazyloading dependency
-
-## 1.4.0 - 2020-04-29
-
-### Added
-- missing properties in the documentation (README), fix some mistakes
-
-## 1.2.0 - 2020-04-22
-
+## 1.0.2 - 2020-10-01
+### Fix
+- some config values that are passed
 ### Changed
-- improve logic structure / core refactoring
-
-## 1.1.1 - 2020-04-16
-
-### Added
-- separate build without polyfills to support Gatsby
-
-
-## 1.1.0 - 2020-04-02
-
-### Changed
-- babel version from 6.x.x to 7.x.x
+- how props are passed to image and background
+- update documentation 
