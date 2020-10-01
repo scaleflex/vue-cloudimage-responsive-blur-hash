@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <lazy-component v-if="properties.config.lazyLoading && lazyLoadActive" @show="handler">
-      <div :class="loadedStyle" :style="container">
-        <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
-
-        <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
-          <slot></slot>
-        </div>
-      </div>
-    </lazy-component>
-    <div v-else :class="loadedStyle" :style="container">
+  <div v-if="processed">
+    <slot></slot>
+  </div>
+  <lazy-component v-else-if="properties.config.lazyLoading && lazyLoadActive" @show="handler">
+    <div :class="loadedStyle" :style="container">
       <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
 
       <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
         <slot></slot>
       </div>
     </div>
-    <div v-if="processed">
+  </lazy-component>
+  <div v-else :class="loadedStyle" :style="container">
+    <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
+
+    <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
       <slot></slot>
     </div>
   </div>
@@ -24,7 +22,7 @@
 
 <script>
 import { isServer, processReactNode } from "cloudimage-responsive-utils";
-import { backgroundStyles as styles } from 'cloudimage-responsive-utils';
+import { backgroundStyles as styles } from "cloudimage-responsive-utils";
 import { getFilteredBgProps } from "./utils.js";
 import Canvas from "./Canvas.vue";
 export default {
@@ -34,10 +32,42 @@ export default {
   // geting the data from the provider
   inject: ["cloudProvider"],
   props: {
-    src: String,
-    params: String,
-    styles: Object,
-    blurhash: String
+    src: {
+      type: String,
+      default: undefined,
+      required: true
+    },
+    width: {
+      type: String,
+      default: undefined
+    },
+    height: {
+      type: String,
+      default: undefined
+    },
+    params: {
+      type: String,
+      default: undefined
+    },
+    sizes: {
+      type: Object,
+      default: undefined
+    },
+    ratio: {
+      type: Number
+    },
+    alt: {
+      type: String
+    },
+    className: {
+      type: String
+    },
+    styles: {
+      type: Object
+    },
+    blurhash: {
+      type: String
+    }
   },
   data() {
     return {
@@ -49,16 +79,20 @@ export default {
       data: "",
       properties: {
         src: this.src,
-        params: this.params ? this.params : undefined,
+        params: this.params,
         config: this.cloudProvider.config,
         style: this.styles,
-        blurhash: this.blurhash
+        width: this.width,
+        height: this.height,
+        sizes: this.sizes,
+        ratio: this.ratio,
+        blurhash: this.blurhash,
+        alt: this.alt,
+        className: this.className
       },
       container: "",
       previewBgWrapper: "",
       previewBg: "",
-      className: "",
-      lazyLoadConfig: "",
       otherProps: "",
       loadedStyle: ""
     };
@@ -66,9 +100,7 @@ export default {
   mounted() {
     if (this.server) return;
     const style = this.properties.style;
-    const { className } = getFilteredBgProps(this.properties);
     const cloudimgURL = this.data.cloudimgURL;
-    this.className = className;
 
     //initial loading style
     this.loadedStyle = [this.className, "cloudimage-background", "loading"];

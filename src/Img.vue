@@ -1,23 +1,24 @@
 <template>
-  <div>
-    <lazy-component v-if="properties.config.lazyLoading && lazyLoadActive" @show="handler">
-      <div v-bind:class="loadedStyle" :style="picture">
-        <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
-        <img v-bind:alt="alt" :style="imgStyle" v-bind:ratio="otherProps.ratio" @load="onImgLoad" />
-      </div>
-    </lazy-component>
-    <div v-else v-bind:class="loadedStyle" :style="picture">
+  <img v-if="server" :alt="alt" :src="BASE_64_PLACEHOLDER" />
+  <lazy-component
+    v-else-if="!server && properties.config.lazyLoading && lazyLoadActive"
+    @show="handler"
+  >
+    <div v-bind:class="loadedStyle" :style="picture">
       <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
-      <img
-        v-bind:alt="alt"
-        :style="imgStyle"
-        v-bind:ratio="otherProps.ratio"
-        v-bind:src="data.cloudimgURL"
-        @load="onImgLoad"
-        :srcset="cloudimgSRCSET"
-      />
+      <img v-bind:alt="alt" :style="imgStyle" v-bind:ratio="otherProps.ratio" @load="onImgLoad" />
     </div>
-    <img v-if="server" :alt="alt" :src="BASE_64_PLACEHOLDER" />
+  </lazy-component>
+  <div v-else v-bind:class="loadedStyle" :style="picture">
+    <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
+    <img
+      v-bind:alt="alt"
+      :style="imgStyle"
+      v-bind:ratio="otherProps.ratio"
+      v-bind:src="data.cloudimgURL"
+      @load="onImgLoad"
+      :srcset="cloudimgSRCSET"
+    />
   </div>
 </template>
 
@@ -27,7 +28,7 @@ import { BASE_64_PLACEHOLDER } from "cloudimage-responsive-utils/dist/constants"
 import Canvas from "./Canvas.vue";
 
 import { getFilteredProps } from "./utils";
-import {blurHashImgStyes as styles} from "cloudimage-responsive-utils";
+import { blurHashImgStyes as styles } from "cloudimage-responsive-utils";
 
 export default {
   components: {
@@ -36,11 +37,39 @@ export default {
   // geting the data from the provider
   inject: ["cloudProvider"],
   props: {
-    src: String,
-    ratio: Number,
-    sizes: Object,
-    params: String,
-    blurhash: String
+    src: {
+      type: String,
+      default: undefined,
+      required: true
+    },
+    width: {
+      type: String,
+      default: undefined
+    },
+    height: {
+      type: String,
+      default: undefined
+    },
+    params: {
+      type: String,
+      default: undefined
+    },
+    sizes: {
+      type: Object,
+      default: undefined
+    },
+    ratio: {
+      type: Number
+    },
+    alt: {
+      type: String
+    },
+    className: {
+      type: String
+    },
+    blurhash: {
+      type: String
+    }
   },
   data() {
     return {
@@ -56,15 +85,17 @@ export default {
       data: "",
       properties: {
         src: this.src,
-        ratio: this.ratio,
-        sizes: this.sizes,
-        blurhash: this.blurhash,
+        width: this.width,
+        height: this.height,
         params: this.params,
+        sizes: this.sizes,
+        ratio: this.ratio,
+        blurhash: this.blurhash,
+        alt: this.alt,
+        className: this.className,
         config: this.cloudProvider.config
       },
-      alt: "",
-      className: "",
-      lazyLoadConfig: "",
+
       preserveSize: "",
       imgNodeWidth: "",
       imgNodeHeight: "",
@@ -72,8 +103,7 @@ export default {
       cloudimgSRCSET: "",
       imgStyle: "",
       picture: "",
-      loadedStyle: "",
-      height: { height: 0 }
+      loadedStyle: ""
     };
   },
   mounted() {
@@ -83,9 +113,6 @@ export default {
     const loaded = this.loaded;
     const previewLoaded = this.previewLoaded;
     const {
-      alt,
-      className,
-      lazyLoadConfig,
       preserveSize,
       imgNodeWidth,
       imgNodeHeight,
@@ -121,9 +148,7 @@ export default {
     }
 
     //the value from filter and passing to data
-    this.alt = alt;
-    this.className = className;
-    this.lazyLoadConfig = lazyLoadConfig;
+
     this.preserveSize = preserveSize;
     this.imgNodeWidth = imgNodeWidth;
     this.imgNodeHeight = imgNodeHeight;
