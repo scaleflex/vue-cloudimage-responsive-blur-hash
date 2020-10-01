@@ -31,7 +31,7 @@
 	<strong>
 		<a href="#table-of-contents">Docs</a>
 		•
-		<a href="https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash/" target="_blank">Demo</a>
+   <a href="https://scaleflex.github.io/vue-cloudimage-responsive-blur-hash/" target="_blank">Demo</a>
 		•
 		<a href="https://codesandbox.io/s/vue-cloudimage-responsive-blur-hash-example-b3u5n" target="_blank">Code Sandbox</a>
 		•
@@ -82,7 +82,7 @@ powered by [Cloudimage](https://www.cloudimage.io/)
 ## <a name="demo"></a> Demo
 
 To see the Cloudimage Responsive plugin in action, please check out the
-[Demo page](https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash/).
+[Demo page](https://github.com/scaleflex/vue-cloudimage-responsive-blur-hash).
 Play with your browser's window size and observe your
 Inspector's Network tab to see how Cloudimage delivers the optimal
 image size to your browser, hence accelerating the overall page
