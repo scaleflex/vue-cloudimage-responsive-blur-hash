@@ -571,8 +571,8 @@
               <prism>{{syntaxHighlight8}}</prism>
               <p>
                 <small>
-                  NOTE: "ratio" is recommended to prevent page layout jumping.{'
-                  '} The parameter is used to calculate image height to hold the
+                  NOTE: "ratio" is recommended to prevent page layout jumping. 
+                  The parameter is used to calculate image height to hold the
                   image position while image is loading.
                 </small>
               </p>
@@ -763,9 +763,9 @@ export default {
   data() {
     return {
       syntaxHighlight1: `<Img
-  src="images[17].src"
-  blurhash="images[17].blur_hash"
-  sizes="{
+  :src="images[17].src"
+  :blurhash="images[17].blur_hash"
+  :sizes="{
     '(max-width: 575px)': { w: 400, h: 150 },
     '(min-width: 576px)': { r: 1 },
     '(min-width: 620px)': { h: 560 },
@@ -797,7 +797,7 @@ export default {
   src="ameen-fahmy.jpg" 
   params="func=crop" 
   blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB"
-  style="background: transparent 50% 50% / cover no-repeat">...</BackgroundImg>`,
+  :style="{background: transparent 50% 50% / cover no-repeat}">...</BackgroundImg>`,
       syntaxHighlight6: `import Vue from 'vue';
 import App from './App.vue';
 import VueLazyload from 'vue-lazyload';
@@ -817,9 +817,9 @@ const cloudimageConfig = {
 };
 
 <template>
-<CloudimageProvider config={cloudimageConfig}>
+<CloudimageProvider v-bind:cloudImageConfig="cloudimageConfig">
  <h1>Simple demo of vue-cloudimage-responsive</h1>
-<Img src="img.jpg" alt="Demo image" ratio=1.5 blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB" />
+<Img src="img.jpg" alt="Demo image"  v-bind:ratio="1.5" blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB" />
 </CloudimageProvider>
 </template>
 
@@ -833,7 +833,7 @@ const cloudimageConfig = {
 '
 < /script>
 `,
-      syntaxHighlight8: `<Img src="img.jpg" alt="Demo image" ratio=1.5 blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>`,
+      syntaxHighlight8: `<Img src="img.jpg" alt="Demo image" v-bind:ratio="1.5" blurhash="LHNRn;04058E};wyIqJ8P90P%b^h"/>`,
 
       images,
       imagesSliced,

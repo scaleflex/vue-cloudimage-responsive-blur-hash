@@ -134,9 +134,9 @@ const cloudimageConfig = {
 };
 
 <template>
-<CloudimageProvider config={cloudimageConfig}>
+<CloudimageProvider v-bind:cloudImageConfig="cloudimageConfig">
  <h1>Simple demo of vue-cloudimage-responsive</h1>
-<Img src="img.jpg" alt="Demo image" ratio=1.5  blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB"/>
+<Img src="img.jpg" alt="Demo image" v-bind:ratio="1.5" blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB"/>
 </CloudimageProvider>
 </template>
 
@@ -155,12 +155,13 @@ export default{
 ### Img component:
 
 ```html
-<img src="img.jpg" alt="Demo image" ratio="1.5"
+<Img src="img.jpg" alt="Demo image" ratio="1.5"
 blurhash="L34VB$Rj8wofayfPj@azDNj[.9WB />
 ```
 
 NOTE: "ratio" is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold
 the image position while image is loading.
+- you can also reference it with kabab-case : img
 
 <a href="https://codesandbox.io/s/vue-cloudimage-responsive-blur-hash-example-b3u5n"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
@@ -171,6 +172,7 @@ the image position while image is loading.
   {'Your conent...'}
 </BackgroundImg>
 ```
+NOTE: you can also reference it with kabab-case : background-img
 
 <a href="https://codesandbox.io/s/vue-cloudimage-responsive-background-blur-hash-hiohl"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="edeit in codesandbox"/></a>
 
@@ -408,15 +410,6 @@ detect the width of image container and set the image size accordingly. This is 
 It is recommended to prevent page layout jumping. The parameter is used to calculate image height to hold
 the image position while image is loading.
 
-### lazyLoading
-
-###### Type: **Bool** | _optional_
-
-Make it possible to disable lazyLoading for each image.
-
-### lazyLoadConfig
-
-###### Type: **Object** | _optional_
 
 The lazyLoad configuration to [LazyLoad](https://github.com/hilongjw/vue-lazyload#props) component.
 
