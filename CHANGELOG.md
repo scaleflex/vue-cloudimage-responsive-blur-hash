@@ -26,7 +26,7 @@ Types of changes:
 
 -------------
 
-## 1.0.2 - 2020-10-01
+## 1.0.4 - 2020-10-01
 ### Fix
 - some config values that are passed
 ### Changed
