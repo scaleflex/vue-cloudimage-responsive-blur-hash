@@ -5,18 +5,31 @@
     @show="handler"
   >
     <div v-bind:class="loadedStyle" :style="picture">
-      <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
-      <img v-bind:alt="alt" :style="imgStyle" v-bind:ratio="otherProps.ratio" @load="onImgLoad" />
+      <Canvas
+        v-if="properties.blurhash"
+        :blurhash="properties.blurhash"
+        :loaded="loaded"
+      />
+      <img
+        v-bind:alt="alt"
+        :style="imgStyle"
+        v-bind:ratio="otherProps.ratio"
+        @load="_onImgLoad"
+      />
     </div>
   </lazy-component>
   <div v-else v-bind:class="loadedStyle" :style="picture">
-    <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
+    <Canvas
+      v-if="properties.blurhash"
+      :blurhash="properties.blurhash"
+      :loaded="loaded"
+    />
     <img
       v-bind:alt="alt"
       :style="imgStyle"
       v-bind:ratio="otherProps.ratio"
       v-bind:src="data.cloudimgURL"
-      @load="onImgLoad"
+      @load="_onImgLoad"
       :srcset="cloudimgSRCSET"
     />
   </div>
@@ -32,7 +45,7 @@ import { blurHashImgStyes as styles } from "cloudimage-responsive-utils";
 
 export default {
   components: {
-    Canvas
+    Canvas,
   },
   // geting the data from the provider
   inject: ["cloudProvider"],
@@ -40,36 +53,40 @@ export default {
     src: {
       type: String,
       default: undefined,
-      required: true
+      required: true,
     },
     width: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     height: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     params: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     sizes: {
       type: Object,
-      default: undefined
+      default: undefined,
     },
     ratio: {
-      type: Number
+      type: Number,
     },
     alt: {
-      type: String
+      type: String,
     },
     className: {
-      type: String
+      type: String,
     },
     blurhash: {
-      type: String
-    }
+      type: String,
+    },
+    onImgLoad: {
+      type: Function,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -93,7 +110,8 @@ export default {
         blurhash: this.blurhash,
         alt: this.alt,
         className: this.className,
-        config: this.cloudProvider.config
+        config: this.cloudProvider.config,
+        onImgLoad: this.onImgLoad,
       },
 
       preserveSize: "",
@@ -103,7 +121,7 @@ export default {
       cloudimgSRCSET: "",
       imgStyle: "",
       picture: "",
-      loadedStyle: ""
+      loadedStyle: "",
     };
   },
   mounted() {
@@ -132,11 +150,11 @@ export default {
       imgNodeHeight,
       ratio: this.data.ratio || this.loadedImageRatio || this.properties.ratio,
       previewLoaded,
-      loaded
+      loaded,
     });
 
     const {
-      config: { delay }
+      config: { delay },
     } = this.cloudProvider;
 
     if (typeof delay !== "undefined") {
@@ -192,13 +210,18 @@ export default {
       this.loadedImageRatio = image.naturalWidth / image.naturalHeight;
     },
 
-    onImgLoad(event) {
+    _onImgLoad(event) {
       this.updateLoadedImageSize(event.target);
       this.loaded = true;
-    }
+
+      const { onImgLoad } = this.properties;
+      if (typeof onImgLoad === "function") {
+        onImgLoad(event);
+      }
+    },
   },
   watch: {
-    "properties.config.innerWidth": function(newVal, oldVal) {
+    "properties.config.innerWidth": function (newVal, oldVal) {
       if (this.server) return;
       const operation = this.data.operation;
       const preview = this.data.preview;
@@ -209,7 +232,7 @@ export default {
       const previewLoaded = this.previewLoaded;
 
       const {
-        config: { innerWidth }
+        config: { innerWidth },
       } = this.properties;
 
       if (oldVal !== innerWidth) {
@@ -226,18 +249,18 @@ export default {
         imgNodeHeight,
         ratio: this.data.ratio || this.loadedImageRatio,
         previewLoaded,
-        loaded
+        loaded,
       });
     },
 
-    "properties.src": function(newVal, oldVal) {
+    "properties.src": function (newVal, oldVal) {
       const { src } = this.properties;
       if (src !== oldVal.src) {
         this.processImg();
       }
     },
 
-    loaded: function(newVal) {
+    loaded: function (newVal) {
       const operation = this.data.operation;
       const preview = this.data.preview;
       const loaded = newVal;
@@ -260,7 +283,7 @@ export default {
           imgNodeHeight,
           ratio: this.data.ratio || this.loadedImageRatio,
           previewLoaded,
-          loaded
+          loaded,
         });
       } else {
         //if still loading change to loading
@@ -268,7 +291,7 @@ export default {
           .join(" ")
           .trim();
       }
-    }
-  }
+    },
+  },
 };
 </script>

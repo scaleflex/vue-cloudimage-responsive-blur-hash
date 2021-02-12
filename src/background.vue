@@ -2,19 +2,36 @@
   <div v-if="processed">
     <slot></slot>
   </div>
-  <lazy-component v-else-if="properties.config.lazyLoading && lazyLoadActive" @show="handler">
+  <lazy-component
+    v-else-if="properties.config.lazyLoading && lazyLoadActive"
+    @show="handler"
+  >
     <div :class="loadedStyle" :style="container">
-      <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
+      <Canvas
+        v-if="properties.blurhash"
+        :blurhash="properties.blurhash"
+        :loaded="loaded"
+      />
 
-      <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
+      <div
+        class="cloudimage-background-content"
+        style="position: relative; zindex: 2"
+      >
         <slot></slot>
       </div>
     </div>
   </lazy-component>
   <div v-else :class="loadedStyle" :style="container">
-    <Canvas v-if="properties.blurhash" :blurhash="properties.blurhash" :loaded="loaded" />
+    <Canvas
+      v-if="properties.blurhash"
+      :blurhash="properties.blurhash"
+      :loaded="loaded"
+    />
 
-    <div class="cloudimage-background-content" style="position: relative; zIndex: 2 ">
+    <div
+      class="cloudimage-background-content"
+      style="position: relative; zindex: 2"
+    >
       <slot></slot>
     </div>
   </div>
@@ -27,7 +44,7 @@ import { getFilteredBgProps } from "./utils.js";
 import Canvas from "./Canvas.vue";
 export default {
   components: {
-    Canvas
+    Canvas,
   },
   // geting the data from the provider
   inject: ["cloudProvider"],
@@ -35,39 +52,43 @@ export default {
     src: {
       type: String,
       default: undefined,
-      required: true
+      required: true,
     },
     width: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     height: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     params: {
       type: String,
-      default: undefined
+      default: undefined,
     },
     sizes: {
       type: Object,
-      default: undefined
+      default: undefined,
     },
     ratio: {
-      type: Number
+      type: Number,
     },
     alt: {
-      type: String
+      type: String,
     },
     className: {
-      type: String
+      type: String,
     },
     styles: {
-      type: Object
+      type: Object,
     },
     blurhash: {
-      type: String
-    }
+      type: String,
+    },
+    onImgLoad: {
+      type: Function,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -88,13 +109,14 @@ export default {
         ratio: this.ratio,
         blurhash: this.blurhash,
         alt: this.alt,
-        className: this.className
+        className: this.className,
+        onImgLoad: this.onImgLoad,
       },
       container: "",
       previewBgWrapper: "",
       previewBg: "",
       otherProps: "",
-      loadedStyle: ""
+      loadedStyle: "",
     };
   },
   mounted() {
@@ -136,16 +158,21 @@ export default {
     preLoadImg(cloudimgURL) {
       const img = new Image();
 
-      img.onload = this.onImgLoad;
+      img.onload = this._onImgLoad;
       img.src = cloudimgURL;
     },
 
-    onImgLoad() {
+    _onImgLoad(event) {
       this.loaded = true;
-    }
+
+      const { onImgLoad } = this.properties;
+      if (typeof onImgLoad === "function") {
+        onImgLoad(event);
+      }
+    },
   },
   watch: {
-    "properties.config.innerWidth": function(newVal, oldVal) {
+    "properties.config.innerWidth": function (newVal, oldVal) {
       const style = this.properties.style;
       const cloudimgURL = this.data.cloudimgURL;
       const previewCloudimgURL = this.data.previewCloudimgURL;
@@ -154,7 +181,7 @@ export default {
       if (this.server) return;
 
       const {
-        config: { innerWidth }
+        config: { innerWidth },
       } = this.properties;
 
       if (oldVal !== innerWidth) {
@@ -165,13 +192,13 @@ export default {
       //updating value of container style if width changed
       this.container = styles.container({ style, cloudimgURL });
     },
-    "properties.src": function(newVal, oldVal) {
+    "properties.src": function (newVal, oldVal) {
       const { src } = this.properties;
       if (src !== oldVal.src) {
         this.processBg();
       }
     },
-    loaded: function(newVal) {
+    loaded: function (newVal) {
       const style = this.properties.style;
       const cloudimgURL = this.data.cloudimgURL;
       const previewCloudimgURL = this.data.previewCloudimgURL;
@@ -191,10 +218,10 @@ export default {
       }
     },
 
-    lazyLoadActive: function() {
+    lazyLoadActive: function () {
       if (!this.lazyLoadActive) {
         const {
-          config: { delay }
+          config: { delay },
         } = this.cloudProvider;
 
         if (typeof delay !== "undefined") {
@@ -205,7 +232,7 @@ export default {
           this.preLoadImg(this.data.cloudimgURL);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
