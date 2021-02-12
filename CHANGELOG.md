@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 1.0.7- 2020-02-12
+### Added
+- OnImgLoad to capture event on load
+- documentation to readme.md under image properties
 ## 1.0.5 - 2020-11-09
 ### updated
 - utils version to add src to each size
