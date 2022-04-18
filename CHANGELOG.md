@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 1.3.3 - 2022-04-18
+### Added
+- possibility to add `doNotReplaceURL` to single image
+
 ## 1.3.2 - 2022-02-09
 ### Fixed
 - change devicePixelRatioList to [1, 1.5, 2]
