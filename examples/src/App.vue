@@ -788,6 +788,13 @@ export default {
   },
   // passing to config to provider
   props: ["cloudimageConfig"],
+  setup() {
+    const onImgLoad = Function;
+
+    return {
+      onImgLoad
+    }
+  },
   mounted() {
     const self = this;
 
@@ -888,7 +895,6 @@ const cloudimageConfigWithCustomCNAMEDomain = {
   },
   methods: {
     onImgLoad(params) {
-      console.log(params);
     },
   },
 };
