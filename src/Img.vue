@@ -1,5 +1,5 @@
 <template>
-  <img v-if="server" :alt="alt" :src="BASE_64_PLACEHOLDER" />
+  <img v-if="server" :alt="properties.alt" :src="BASE_64_PLACEHOLDER" />
   <lazy-component
     v-else-if="!server && properties.config.lazyLoading && lazyLoadActive"
     @show="handler"
@@ -11,7 +11,7 @@
         :loaded="loaded"
       />
       <img
-        v-bind:alt="alt"
+        v-bind:alt="properties.alt"
         :style="imgStyle"
         v-bind:ratio="otherProps.ratio"
         @load="_onImgLoad"
@@ -25,7 +25,7 @@
       :loaded="loaded"
     />
     <img
-      v-bind:alt="alt"
+      v-bind:alt="properties.alt"
       :style="imgStyle"
       v-bind:ratio="otherProps.ratio"
       v-bind:src="data.cloudimgURL"
