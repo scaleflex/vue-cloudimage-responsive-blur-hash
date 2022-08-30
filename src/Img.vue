@@ -1,5 +1,5 @@
 <template>
-  <img v-if="server" :alt="properties.alt" :src="BASE_64_PLACEHOLDER" />
+  <img v-if="server" :alt="properties.alt" />
   <lazy-component
     v-else-if="!server && properties.config.lazyLoading && lazyLoadActive"
     @show="handler"
@@ -37,7 +37,6 @@
 
 <script>
 import { isServer, processReactNode, generateAlt } from "cloudimage-responsive-utils";
-import { BASE_64_PLACEHOLDER } from "cloudimage-responsive-utils/dist/constants";
 import Canvas from "./Canvas.vue";
 
 import { getFilteredProps } from "./utils";
@@ -95,7 +94,6 @@ export default {
   data() {
     return {
       server: isServer(),
-      BASE_64_PLACEHOLDER,
       lazyLoadActive: true,
       cloudimgURL: "",
       processed: false,
