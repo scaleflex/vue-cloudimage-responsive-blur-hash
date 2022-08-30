@@ -25,6 +25,10 @@ Types of changes:
 - ...
 
 -------------
+## 2.0.0 - 2022-08-30
+### Changed
+- **BREAKING**: Upgrade to Vue 3
+
 ## 1.3.4 - 2022-04-26
 ### Fixed
 - Low preview image width
