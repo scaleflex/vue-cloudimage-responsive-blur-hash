@@ -1,5 +1,5 @@
 <template>
-  <img v-if="server" :alt="alt" :src="BASE_64_PLACEHOLDER" />
+  <img v-if="server" :alt="properties.alt" />
   <lazy-component
     v-else-if="!server && properties.config.lazyLoading && lazyLoadActive"
     @show="handler"
@@ -11,7 +11,7 @@
         :loaded="loaded"
       />
       <img
-        v-bind:alt="alt"
+        v-bind:alt="properties.alt"
         :style="imgStyle"
         v-bind:ratio="otherProps.ratio"
         @load="_onImgLoad"
@@ -25,7 +25,7 @@
       :loaded="loaded"
     />
     <img
-      v-bind:alt="alt"
+      v-bind:alt="properties.alt"
       :style="imgStyle"
       v-bind:ratio="otherProps.ratio"
       v-bind:src="data.cloudimgURL"
@@ -36,8 +36,7 @@
 </template>
 
 <script>
-import { isServer, processReactNode } from "cloudimage-responsive-utils";
-import { BASE_64_PLACEHOLDER } from "cloudimage-responsive-utils/dist/constants";
+import { isServer, processReactNode, generateAlt } from "cloudimage-responsive-utils";
 import Canvas from "./Canvas.vue";
 
 import { getFilteredProps } from "./utils";
@@ -95,7 +94,6 @@ export default {
   data() {
     return {
       server: isServer(),
-      BASE_64_PLACEHOLDER,
       lazyLoadActive: true,
       cloudimgURL: "",
       processed: false,
@@ -112,7 +110,7 @@ export default {
         sizes: this.sizes,
         ratio: this.ratio,
         blurhash: this.blurhash,
-        alt: this.alt,
+        alt: this.alt || generateAlt(this.src),
         className: this.className,
         config: this.cloudProvider.config,
         onImgLoad: this.onImgLoad,
@@ -143,9 +141,9 @@ export default {
     } = getFilteredProps(this.properties);
 
     //initial loading style
-    this.loadedStyle = [this.className, "cloudimage-background", "loading"]
-      .join(" ")
+    this.loadedStyle = `${this.className} cloudimage-background loading`
       .trim();
+
     //initial value image style
     this.imgStyle = styles.img({ preview, loaded, operation });
     //initial value picture style
@@ -200,7 +198,6 @@ export default {
         imgNode,
         update,
         windowScreenBecomesBigger,
-        false
       );
 
       if (data) {
@@ -275,10 +272,6 @@ export default {
       const previewLoaded = this.previewLoaded;
 
       if (loaded) {
-        //if loaded change style to loaded
-        this.loadedStyle = [this.className, "cloudimage-background", "loaded"]
-          .join(" ")
-          .trim();
         // updating img style if page loaded
         this.imgStyle = styles.img({ preview, loaded, operation });
         // updating picture style if page loaded
@@ -290,12 +283,10 @@ export default {
           previewLoaded,
           loaded,
         });
-      } else {
-        //if still loading change to loading
-        this.loadedStyle = [this.className, "cloudimage-background", "loading"]
-          .join(" ")
-          .trim();
       }
+
+      this.loadedStyle = `${this.className} cloudimage-background ${loaded ? 'loaded' : 'loading'}`
+        .trim();
     },
   },
 };
